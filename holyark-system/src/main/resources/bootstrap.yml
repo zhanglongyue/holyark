@@ -1,0 +1,66 @@
+server:
+  port: 38001 #端口号
+
+spring:
+  application:
+    name: holyark-system
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${nacos.addr}
+        namespace: ${nacos.namespace}
+        group: ${nacos.discovery-group}
+        heart-beat-timeout: ${nacos.heart-beat-timeout}
+        heart-beat-interval: ${nacos.heart-beat-interval}
+        password: ${nacos.password}
+      config:
+        server-addr: ${nacos.addr}
+        prefix: ${spring.application.name}
+        file-extension: yml
+        namespace: ${nacos.namespace}
+        group: ${nacos.config-group}
+
+
+########################## Nacos默认拉取的配置文件说明 ##########################
+# ${spring.application.name}-${spring.profile.active}.${spring.cloud.nacos.config.file-extension}
+# 匹配以上格式，最终拉取的配置文件为 cloud-api-system-dev.yml
+
+
+
+########################## 各环境配置 ##########################
+# 启动时加上 VM参数 -Dspring.profiles.active=dev 指定环境
+---
+spring:
+  profiles: dev
+nacos:
+  addr: 101.34.88.126:8848
+  namespace: dev
+  config-group: DEFAULT_GROUP
+  discovery-group: zly
+  heart-beat-timeout: 15000
+  heart-beat-interval: 5000
+  password: nacos
+
+---
+spring:
+  profiles: test
+nacos:
+  addr: 192.168.2.203:8848
+  namespace: cloud
+  config-group: DEFAULT_GROUP
+  discovery-group: test
+  heart-beat-timeout: 15000
+  heart-beat-interval: 5000
+  password: nacos
+
+---
+spring:
+  profiles: prod
+nacos:
+  addr: 172.16.206.120:8848
+  namespace: cloud
+  config-group: DEFAULT_GROUP
+  discovery-group: DEFAULT_GROUP
+  heart-beat-timeout: 15000
+  heart-beat-interval: 5000
+  password: DFtx@2021
